@@ -3,6 +3,7 @@ import { View, Text, FlatList, Image} from 'react-native';
 import { Button, Input, CheckBox } from 'react-native-elements';
 import { styles } from './Styles';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export class EntryDetailScreen extends React.Component {
@@ -41,15 +42,15 @@ export class EntryDetailScreen extends React.Component {
       expDate: initExpDate,
       servings: initServing,
       image: require('./images/ImageNotAvailable.png'),
-      imageWidth: 100,
-      imageHeight: 100,
+      imageWidth: 240,
+      imageHeight: 180,
     }
 
   }
   updateImage = (imageObject) => {
     let aspectRatio = imageObject.width / imageObject.height;
-    let w = 100;
-    let h = 100;
+    let w = 240;
+    let h = 180;
     this.setState({
       image: {uri: imageObject.uri},
       imageWidth: w,
@@ -137,19 +138,13 @@ export class EntryDetailScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <View style={{flex: 0.3, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={styles.headerText}>Log food</Text>
+        <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Log food</Text>
+        </View>
+          <View style={styles.detailsHeaderContainer}>
             <Image
               style={{width: this.state.imageWidth, height: this.state.imageHeight}}
               source={this.state.image}
-            />
-            <Button
-              title="Take New Pic"
-              onPress={()=>{
-                this.props.navigation.navigate('Camera', {
-                  EntryDetailScreen: this
-                })
-              }}
             />
           </View>
         <View style={styles.detailsBodyContainer}>
@@ -162,62 +157,159 @@ export class EntryDetailScreen extends React.Component {
             {/* <FormValidationMessage>Error message</FormValidationMessage> */}
             <Input
               multiline={false}
-              placeholder="Food Name"
+              placeholder="Add your food item here"
+              placeholderStyle={styles.placeholderStyle}
               inputContainerStyle={styles.smallInput}
-              containerStyle={{justifyContent: 'flex-start'}}
               value={this.state.inputText}
               onChangeText={(value)=>{this.setState({inputText: value})}}
             />
-          
+            <MaterialCommunityIcons
+              name="camera"
+              size={25}
+              color="black"
+              onPress={()=>{
+                this.props.navigation.navigate('Camera', {
+                  EntryDetailScreen: this
+                })
+              }}/>
           </View>
           <View>
+          <View style={styles.optionContainers}>
             {/* Expiration Dates */}
-            <Text>Expired in {this.state.expDate} days</Text>
-              <Button
-                title='-1 days'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleDecrementDate()}}
-              />
-              <Button
-                title='+2 days'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementDate(2)}}
-              />
-              <Button
-                title='+5 days'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementDate(5)}}
-              />
-              <Button
-                title='+14 days'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementDate(14)}}
-              />
-              <Button
-                title='+30 days'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementDate(30)}}
-              />
+            <Text style={{ fontSize: 14, textAlign: 'center' }}>Expired in {this.state.expDate} days</Text>
+              <View style={styles.detailButtons}>
+                <Button
+                  title='-1'
+                  titleStyle={{
+                    color: "#00D098",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    borderRadius: 2,
+                    backgroundColor: "white",
+                    borderColor: "#00D098",
+                    borderWidth: 1,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleDecrementDate()}}
+                />
+                <Button
+                  title='+2'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementDate(2)}}
+                />
+                <Button
+                  title='+5'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementDate(5)}}
+                />
+                <Button
+                  title='+14'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementDate(14)}}
+                />
+                <Button
+                  title='+30'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementDate(30)}}
+                />
+              </View>
           </View>
           <View>
             {/* Serving Times*/}
-            <Text>About {this.state.servings} Servings</Text>
-              <Button
-                title='-1 servings'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleDecrementServings()}}
-              />
-              <Button
-                title='+2 servings'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementServings(2)}}
-              />
-              <Button
-                title='+5 servings'
-                containerStyle={styles.smallButtonContainer}
-                onPress={()=>{this.handleIncrementServings(5)}}
-              />
-              
+            <Text style={{ fontSize: 14, textAlign: 'center' }}>About {this.state.servings} Servings</Text>
+              <View style={styles.detailButtons}>
+                <Button
+                  title='-1'
+                  titleStyle={{
+                    color: "#00D098",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    borderRadius: 2,
+                    backgroundColor: "white",
+                    borderColor: "#00D098",
+                    borderWidth: 1,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleDecrementServings()}}
+                />
+                <Button
+                  title='+2'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementServings(2)}}
+                />
+                <Button
+                  title='+5'
+                  titleStyle={{
+                    color: "white",
+                    fontSize: 14,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#00D098",
+                    borderRadius: 2,
+                    height: 38,
+                    width: 50,  
+                  }}
+                  containerStyle={styles.smallButtonContainer}
+                  onPress={()=>{this.handleIncrementServings(5)}}
+                />
+              </View>
+              </View>
           </View>
           {/* <View style={styles.detailsLabelsContainer}>
             <FlatList
@@ -240,6 +332,18 @@ export class EntryDetailScreen extends React.Component {
         <View style={styles.footerContainer}>
           <Button
             title='Cancel'
+            titleStyle={{
+              color: "#00D098",
+              fontSize: 14,
+            }}
+            buttonStyle={{
+              borderRadius: 19,
+              backgroundColor: "white",
+              borderColor: "#00D098",
+              borderWidth: 1,
+              height: 38,
+              width: 122,  
+            }}
             containerStyle={styles.mediumButtonContainer}
             onPress={() => {
               this.props.navigation.goBack();
@@ -247,6 +351,16 @@ export class EntryDetailScreen extends React.Component {
           />
           <Button
             title='Save'
+            titleStyle={{
+              color: "white",
+              fontSize: 14,
+            }}
+            buttonStyle={{
+              backgroundColor: "#00D098",
+              borderRadius: 19,
+              height: 38,
+              width: 122,  
+            }}
             containerStyle={styles.mediumButtonContainer}
             onPress={this.handleSave}
           />

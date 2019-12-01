@@ -47,12 +47,23 @@ export class MainScreen extends React.Component {
               text: docData.text,
               timestamp: docData.timestamp.toDate(),
               key: docRef.id, 
-              labels: docData.labels
+              labels: docData.labels,
+              comments: docData.comments,
             }
             newEntries.push(newEntry);
           })
           this.setState({entries: newEntries});
         });
+      }
+
+      //  use key of label to render the name of label in JSX 
+      getLabelName(labelKey) {
+        for (lbl of this.state.labels) {
+          if (lbl.key === labelKey) {
+            return lbl.name;
+          }
+        }
+        return undefined;
       }
     
       addEntry(newEntry) {
@@ -86,13 +97,15 @@ export class MainScreen extends React.Component {
           this.setState({entries: newEntries});
         });
       }
-    
+
       updateEntry(entryToUpdate) {
         //let entryKey = entryToUpdate.key;
+        console.log(entryToUpdate)
         this.entriesRef.doc(entryToUpdate.key).set({
           text: entryToUpdate.text,
           timestamp: entryToUpdate.timestamp,
-          labels: entryToUpdate.labels
+          // labels: entryToUpdate.labels,
+          comments: entryToUpdate.comments,
         }).then(() => {
           let newEntries = [];
           for (entry of this.state.entries) {
@@ -113,6 +126,14 @@ export class MainScreen extends React.Component {
       handleEdit(entryToEdit) {
         this.props.navigation.navigate('Details', {
           entry: entryToEdit,
+          mainScreen: this
+        });
+      }
+
+      handleComment(entryToComment) {
+        console.log(entryToComment)
+        this.props.navigation.navigate('Comment', {
+          entry: entryToComment,
           mainScreen: this
         });
       }
@@ -145,15 +166,21 @@ export class MainScreen extends React.Component {
                         <View style={styles.bodyListItemRight}>
                           <Button
                             title='Delete'
-                            containerStyle={styles.mediumButtonContainer}
+                            containerStyle={styles.smallButtonContainer}
                             titleStyle={styles.mediumButtonTitle}
                             onPress={()=>{this.handleDelete(item)}}
                           />
                           <Button
                             title='Edit'
-                            containerStyle={styles.mediumButtonContainer}
+                            containerStyle={styles.smallButtonContainer}
                             titleStyle={styles.mediumButtonTitle}
                             onPress={()=>{this.handleEdit(item)}}
+                          />
+                          <Button
+                            title='Comment'
+                            containerStyle={styles.smallButtonContainer}
+                            titleStyle={styles.mediumButtonTitle}
+                            onPress={()=>{this.handleComment(item)}}
                           />
                         </View>
     

@@ -3,13 +3,13 @@ import { createAppContainer } from 'react-navigation';
 import { MainScreen } from './Main';
 import { EntryDetailScreen } from './EntryDetail';
 import { CameraScreen } from './CameraScreen';
-
+import { CommentScreen } from './CommentScreen';
 const AppNavigator = createStackNavigator(
   {
     Home: MainScreen,
     Details: EntryDetailScreen,
     Camera: CameraScreen,
-    // LabelList: LabelListScreen,
+    Comment: CommentScreen,
     // LabelDetails: LabelDetailScreen,
   },
   {
