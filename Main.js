@@ -18,9 +18,11 @@ const firebaseConfig = {
 export class MainScreen extends React.Component {
     
     constructor(props) {
+
         super(props);
         let theList = [];
         let theLabelList = []
+        console.log('working on multi user')
         
         this.labels = [
             {key: 'h', name: 'Home'},
@@ -71,7 +73,6 @@ export class MainScreen extends React.Component {
           // console.log('saved')
       }
       
-    
       deleteEntry(entryToDelete) {
         let entryKey = entryToDelete.key;
         // console.log(entryKey);
