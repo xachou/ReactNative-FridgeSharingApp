@@ -5,27 +5,27 @@ import { styles } from './Styles';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-
 export class EntryDetailScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.entryToUpdate = this.props.navigation.getParam('entry', undefined);
-    console.log(this.entryToUpdate)
     this.mainScreen = this.props.navigation.getParam('mainScreen');
-    
     this.isAdd = (typeof this.entryToUpdate === 'undefined');
-
 
     let initText = '';
     let initExpDate = 5;
     let initServing = 2;
     let initLabels = [];
+    let initComments = [];
 
+    //this check if we are going to use this page for adding or editing
     if (!this.isAdd) {
       initText = this.entryToUpdate.text;
       initLabels = this.entryToUpdate.labels;
+      initComments = this.entryToUpdate.comments;
+      initExpDate = this.entryToUpdate.expDate;
+      initServing = this.entryToUpdate.servings;
     } else {
       for (lbl of this.mainScreen.labels) {
         initLabels.push({
@@ -36,17 +36,20 @@ export class EntryDetailScreen extends React.Component {
       }
     }
 
+    // state
     this.state = {
       inputText: initText,
       labels: initLabels,
       expDate: initExpDate,
       servings: initServing,
+      comments: initComments,
       image: require('./images/ImageNotAvailable.png'),
       imageWidth: 240,
       imageHeight: 180,
     }
 
   }
+
   updateImage = (imageObject) => {
     let aspectRatio = imageObject.width / imageObject.height;
     let w = 240;
@@ -76,10 +79,14 @@ export class EntryDetailScreen extends React.Component {
   }
   
   handleSave = () => {
+    console.log(this.state)
     let newEntry = {
       text: this.state.inputText,
       timestamp: new Date(Date.now()),
-      labels: this.state.labels
+      labels: this.state.labels,
+      comments: this.state.comments,
+      servings: this.state.servings,
+      expDate: this.state.expDate,
     };
     let mainScreen = this.props.navigation.getParam('mainScreen');
     if (this.isAdd) {

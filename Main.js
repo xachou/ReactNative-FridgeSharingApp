@@ -22,7 +22,6 @@ export class MainScreen extends React.Component {
         super(props);
         let theList = [];
         let theLabelList = []
-        console.log('working on multi user')
         
         this.labels = [
             {key: 'h', name: 'Home'},
@@ -99,13 +98,16 @@ export class MainScreen extends React.Component {
       }
 
       updateEntry(entryToUpdate) {
-        //let entryKey = entryToUpdate.key;
         console.log(entryToUpdate)
+        console.log(1)
         this.entriesRef.doc(entryToUpdate.key).set({
           text: entryToUpdate.text,
           timestamp: entryToUpdate.timestamp,
-          // labels: entryToUpdate.labels,
           comments: entryToUpdate.comments,
+          expDate:  entryToUpdate.expDate,
+          servings: entryToUpdate.servings,
+          // labels: entryToUpdate.labels,
+          // comments: entryToUpdate.comments,
         }).then(() => {
           let newEntries = [];
           for (entry of this.state.entries) {

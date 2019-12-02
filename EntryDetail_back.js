@@ -16,15 +16,17 @@ export class EntryDetailScreen extends React.Component {
     
     this.isAdd = (typeof this.entryToUpdate === 'undefined');
 
-
     let initText = '';
     let initExpDate = 5;
     let initServing = 2;
     let initLabels = [];
+    let initComments = [];
 
     if (!this.isAdd) {
       initText = this.entryToUpdate.text;
       initLabels = this.entryToUpdate.labels;
+      initComments = this.entryToUpdate.comments;
+      console.log(initComments[0])
     } else {
       for (lbl of this.mainScreen.labels) {
         initLabels.push({
@@ -37,15 +39,18 @@ export class EntryDetailScreen extends React.Component {
 
     this.state = {
       inputText: initText,
-      labels: initLabels,
+      // labels: initLabels,
       expDate: initExpDate,
       servings: initServing,
+      comments: initComments,
       image: require('./images/ImageNotAvailable.png'),
       imageWidth: 100,
       imageHeight: 100,
+      
     }
-
+    console.log(this.state)
   }
+
   updateImage = (imageObject) => {
     let aspectRatio = imageObject.width / imageObject.height;
     let w = 100;
@@ -75,11 +80,16 @@ export class EntryDetailScreen extends React.Component {
   }
   
   handleSave = () => {
+    let comments_copy = this.state.comments;
     let newEntry = {
       text: this.state.inputText,
       timestamp: new Date(Date.now()),
-      labels: this.state.labels
+      // labels: this.state.labels,
+      
+      servings: this.state.servings,
+      expDate: this.state.expDate,
     };
+    console.log('what')
     let mainScreen = this.props.navigation.getParam('mainScreen');
     if (this.isAdd) {
       mainScreen.addEntry(newEntry);
@@ -248,7 +258,7 @@ export class EntryDetailScreen extends React.Component {
           <Button
             title='Save'
             containerStyle={styles.mediumButtonContainer}
-            onPress={this.handleSave}
+            onPress={this.handleSave()}
           />
         </View>
       </View>
