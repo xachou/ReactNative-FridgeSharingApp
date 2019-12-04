@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
+
 export const styles = StyleSheet.create({
+    deleteButton: {
+      color: 'blue',  
+    },
   container: {
     flex: 1.0,
     justifyContent: 'flex-start',
@@ -25,8 +29,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   bodyListItem: {
-    flex: 1,
-    margin: 10,
+
     flexDirection: 'row',
     width: '100%'
   },
@@ -92,7 +95,7 @@ export const styles = StyleSheet.create({
     height: '95%'
   },
   footerContainer: {
-    flex: 0.3,
+    flex: 0.1,
     flexDirection: 'row',
     width: '70%',
     justifyContent: 'center'
@@ -109,5 +112,5 @@ export const styles = StyleSheet.create({
   smallButtonContainer: {
     margin: 3,
     marginTop: 10,
-  }
+  },
 });

@@ -1,9 +1,11 @@
-import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import { View, Text, FlatList, Platform, Image, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { styles } from './Styles';
 import firebase from 'firebase';
+import { Container, Header, Body, Subtitle, CheckBox, Title, Card, CardItem, Left, Right, Icon, Content, Thumbnail, Grid, Col } from 'native-base';
 import '@firebase/firestore';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAK4Tn8HNnIbrdfh5e1uR5JECM3T4J99N0",
@@ -161,32 +163,54 @@ export class MainScreen extends React.Component {
                   ({item}) => {
                     return (
                       <View style={styles.bodyListItem}>
-                        <View style={styles.bodyListItemLeft}>
-                          <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
-                          <Text style={styles.bodyListItemText}>{item.text}</Text>
+                        {/* <View style={styles.bodyListItemLeft}> */}
+                        <Content>
+                          <Card>
+                            <CardItem>
+                              <Left>
+                              <Thumbnail 
+                              source={require('./images/cake.jpg')}
+                              style={{width:80,height:80,borderRadius:10,marginRight:5}}/>
+                              <View style={{alignItems:'flex-start',flexDirection:'column'}}>
+                                <Title style={styles.bodyListItemText}>{item.text}</Title>
+                                <Subtitle>Expires in 5 days</Subtitle>
+                                <Body>
+                                 <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
+                               </Body>
+                              </View>
+                              </Left>
+
+                              <Right>
+                                  <View style={{alignItems:'flex-start',flexDirection:'column'}}>
+                                  <CardItem button onPress={()=>{this.handleDelete(item)}}>
+                                <Body>
+                                  <Text>
+                                    Delete
+                                  </Text>
+                                </Body>
+                              </CardItem>
+                                  </View>
+                              </Right>
+                            </CardItem>
+                              {/* <Right>
+                              <CardItem button onPress={()=>{this.handleComment(item)}}>
+                                <Body>
+                                  <Text>
+                                    Comment
+                                  </Text>
+                                </Body>
+                              </CardItem>
+                              <CardItem button onPress={()=>{this.handleEdit(item)}}>
+                                <Body>
+                                  <Text>
+                                    Edit
+                                  </Text>
+                                </Body>
+                              </CardItem>
+                              </Right> */}
+                          </Card>
+                        </Content>
                         </View>
-                        <View style={styles.bodyListItemRight}>
-                          <Button
-                            title='Delete'
-                            containerStyle={styles.smallButtonContainer}
-                            titleStyle={styles.mediumButtonTitle}
-                            onPress={()=>{this.handleDelete(item)}}
-                          />
-                          <Button
-                            title='Edit'
-                            containerStyle={styles.smallButtonContainer}
-                            titleStyle={styles.mediumButtonTitle}
-                            onPress={()=>{this.handleEdit(item)}}
-                          />
-                          <Button
-                            title='Comment'
-                            containerStyle={styles.smallButtonContainer}
-                            titleStyle={styles.mediumButtonTitle}
-                            onPress={()=>{this.handleComment(item)}}
-                          />
-                        </View>
-    
-                      </View>
                     );
                   }} 
               />
