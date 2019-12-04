@@ -3,6 +3,7 @@ import * as Permissions from 'expo-permissions';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import { Button } from 'react-native-elements';
+
 export class CameraScreen extends React.Component {
 
     constructor(props) {
@@ -17,14 +18,12 @@ export class CameraScreen extends React.Component {
       Permissions.askAsync(Permissions.CAMERA).then(permStatus => {
         this.setState({ hasCameraPermission: permStatus.status === 'granted' });
       });
-  
     }
   
     handleTakePicture = () => {
-      let EntryDetailScreen = this.props.navigation.getParam('EntryDetailScreen');
-      console.log(EntryDetailScreen)
+      let entryDetailScreen= this.props.navigation.getParam('entryDetail');
       this.camera.takePictureAsync().then((picData)=>{
-        EntryDetailScreen.updateImage(picData);
+        entryDetailScreen.updateImage(picData);
         this.props.navigation.goBack();
       })
     }

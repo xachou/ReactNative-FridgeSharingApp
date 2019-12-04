@@ -3,8 +3,9 @@ import { View, Text, FlatList, Platform, Image, TouchableOpacity } from 'react-n
 import { Button } from 'react-native-elements';
 import { styles } from './Styles';
 import firebase from 'firebase';
+import '@firebase/firestore'; // not sure why we don't import storage as well
 import { Container, Header, Body, Subtitle, CheckBox, Title, Card, CardItem, Left, Right, Icon, Content, Thumbnail, Grid, Col } from 'native-base';
-import '@firebase/firestore';
+import Moment from 'moment';
 
 
 const firebaseConfig = {
@@ -24,6 +25,7 @@ export class MainScreen extends React.Component {
         super(props);
         let theList = [];
         let theLabelList = []
+        this.defaultThumbNail = require('./images/cake.jpg')
         
         this.labels = [
             {key: 'h', name: 'Home'},
@@ -35,10 +37,14 @@ export class MainScreen extends React.Component {
           entries: theList,
           labels: theLabelList,
         }
-        // console.log(this.state.labels)
-    
+
+        // Setting up the firebase and fire storage
         firebase.initializeApp(firebaseConfig);
         this.db = firebase.firestore();
+        const storage = firebase.storage();
+        this.storageRef = storage.ref();
+
+        // fetch all the data from firebase, and update state
         this.entriesRef = this.db.collection('entries'); 
         this.entriesRef.get().then(queryRef=>{
           let newEntries = [];
@@ -50,6 +56,9 @@ export class MainScreen extends React.Component {
               key: docRef.id, 
               labels: docData.labels,
               comments: docData.comments,
+              servings:docData.servings,
+              expDate:docData.expDate,
+              image: docData.image,
             }
             newEntries.push(newEntry);
           })
@@ -66,7 +75,25 @@ export class MainScreen extends React.Component {
         }
         return undefined;
       }
-    
+
+      conditionalThumbNail(imageObject) { // if user doesn't take picture while logging, return default picture
+        console.log('thumbnail---')
+        console.log(imageObject);
+        if (imageObject.uri === 25) {
+            return this.defaultThumbNail;
+          } else {
+            console.log('has thumbnail')
+            return imageObject;
+          }
+      }
+
+      getConciseTimeStamp(timestamp){
+        let t = timestamp.toLocaleString()
+        formatTime = Moment(t).format('MM/DD/YYYY');
+        return formatTime
+      }
+      
+      // add a new entry  
       addEntry(newEntry) {
         this.entriesRef.add(newEntry).then(docRef=> {
           newEntry.key = docRef.id;
@@ -100,14 +127,13 @@ export class MainScreen extends React.Component {
       }
 
       updateEntry(entryToUpdate) {
-        console.log(entryToUpdate)
-        console.log(1)
         this.entriesRef.doc(entryToUpdate.key).set({
           text: entryToUpdate.text,
           timestamp: entryToUpdate.timestamp,
           comments: entryToUpdate.comments,
           expDate:  entryToUpdate.expDate,
           servings: entryToUpdate.servings,
+          image: entryToUpdate.image,
           // labels: entryToUpdate.labels,
           // comments: entryToUpdate.comments,
         }).then(() => {
@@ -142,7 +168,10 @@ export class MainScreen extends React.Component {
         });
       }
 
+
+
     render() {
+       
         return (
           <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -169,13 +198,13 @@ export class MainScreen extends React.Component {
                             <CardItem>
                               <Left>
                               <Thumbnail 
-                              source={require('./images/cake.jpg')}
+                              source={this.conditionalThumbNail(item.image)}
                               style={{width:80,height:80,borderRadius:10,marginRight:5}}/>
                               <View style={{alignItems:'flex-start',flexDirection:'column'}}>
                                 <Title style={styles.bodyListItemText}>{item.text}</Title>
-                                <Subtitle>Expires in 5 days</Subtitle>
+                                <Subtitle>{item.servings} Servings</Subtitle>
                                 <Body>
-                                 <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
+                                 <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
                                </Body>
                               </View>
                               </Left>
@@ -192,7 +221,7 @@ export class MainScreen extends React.Component {
                                   </View>
                               </Right>
                             </CardItem>
-                              {/* <Right>
+                              <Right>
                               <CardItem button onPress={()=>{this.handleComment(item)}}>
                                 <Body>
                                   <Text>
@@ -207,7 +236,7 @@ export class MainScreen extends React.Component {
                                   </Text>
                                 </Body>
                               </CardItem>
-                              </Right> */}
+                              </Right>
                           </Card>
                         </Content>
                         </View>

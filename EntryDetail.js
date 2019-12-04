@@ -9,16 +9,20 @@ export class EntryDetailScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.entryToUpdate = this.props.navigation.getParam('entry', undefined);
     this.mainScreen = this.props.navigation.getParam('mainScreen');
     this.isAdd = (typeof this.entryToUpdate === 'undefined');
+    let currentImageRef =  this.mainScreen.currentImageRef
 
     let initText = '';
     let initExpDate = 5;
     let initServing = 2;
     let initLabels = [];
     let initComments = [];
-
+    let initImage = require('./images/ImageNotAvailable.png');
+    console.log('hello');
+    console.log(typeof initImage);
     //this check if we are going to use this page for adding or editing
     if (!this.isAdd) {
       initText = this.entryToUpdate.text;
@@ -26,6 +30,22 @@ export class EntryDetailScreen extends React.Component {
       initComments = this.entryToUpdate.comments;
       initExpDate = this.entryToUpdate.expDate;
       initServing = this.entryToUpdate.servings;
+      initImage = this.entryToUpdate.image;
+      console.log(initImage)
+      if (typeof this.entryToUpdate.image !== 'undefined') {
+            console.log('old image----');
+            console.log(this.entryToUpdate.image);
+            initImage = this.entryToUpdate.image;
+          }
+      // currentImageRef.get().then(docSnap => {
+      //   // let currentImageURI = docSnap.data().imageURI;
+      //   let currentImageURI = this.entryToUpdate.image.uri;
+      //   if (typeof currentImageURI !== 'undefined') {
+      //     initImage = {uri: currentImageURI}
+      //   } else {
+      //     initImage = {uri:require('./images/ImageNotAvailable.png')}
+      //   }
+      // });
     } else {
       for (lbl of this.mainScreen.labels) {
         initLabels.push({
@@ -35,7 +55,6 @@ export class EntryDetailScreen extends React.Component {
         })
       }
     }
-
     // state
     this.state = {
       inputText: initText,
@@ -43,43 +62,13 @@ export class EntryDetailScreen extends React.Component {
       expDate: initExpDate,
       servings: initServing,
       comments: initComments,
-      image: require('./images/ImageNotAvailable.png'),
+      image: initImage,
       imageWidth: 240,
       imageHeight: 180,
     }
-
   }
 
-  updateImage = (imageObject) => {
-    let aspectRatio = imageObject.width / imageObject.height;
-    let w = 240;
-    let h = 180;
-    this.setState({
-      image: {uri: imageObject.uri},
-      imageWidth: w,
-      imageHeight: h
-    });
-    console.log(imageObject.uri);
-
-    let mainScreen = this;
-    let uriParts = imageObject.uri.split('/');
-    let fname = uriParts[uriParts.length - 1];
-    fetch(imageObject.uri).then(response => {
-      return response.blob();
-    })
-    .then(blob => {
-      return mainScreen.storageRef.child(fname).put(blob);
-    })
-    .then(uploadTaskSnapshot => {
-      return uploadTaskSnapshot.ref.getDownloadURL();
-    })
-    .then(downloadURL => {
-      mainScreen.currentImageRef.set({imageURI: downloadURL});
-    });
-  }
-  
   handleSave = () => {
-    console.log(this.state)
     let newEntry = {
       text: this.state.inputText,
       timestamp: new Date(Date.now()),
@@ -87,6 +76,7 @@ export class EntryDetailScreen extends React.Component {
       comments: this.state.comments,
       servings: this.state.servings,
       expDate: this.state.expDate,
+      image: this.state.image,
     };
     let mainScreen = this.props.navigation.getParam('mainScreen');
     if (this.isAdd) {
@@ -121,13 +111,12 @@ export class EntryDetailScreen extends React.Component {
   }
   handleIncrementDate = (value) =>{
     let expDate = this.state.expDate
-    console.log(value)
+
     expDate += value
     this.setState({expDate:expDate})
   }
   handleDecrementServings = (value) =>{
     let serv = this.state.servings
-    console.log(value)
     if (serv > 1){
       serv -= 1
     } else{
@@ -142,7 +131,50 @@ export class EntryDetailScreen extends React.Component {
     this.setState({servings:serv})
   }
 
+  // called by CameraScreen to 
+  updateImage = (imageObject) => {
+    let aspectRatio = imageObject.width / imageObject.height;
+    let w = 240;
+    let h = 180;
+    this.setState({
+      image: {uri: imageObject.uri},
+      imageWidth: w,
+      imageHeight: h
+    });
+    console.log('updateImage()------')
+    console.log(imageObject.uri);
+    
+    let mainScreen = this.props.navigation.getParam('mainScreen');
+    let uriParts = imageObject.uri.split('/');
+    let fname = uriParts[uriParts.length - 1];
+    fetch(imageObject.uri).then(response => {
+      console.log('1fetch')
+      return response.blob();
+    })
+    .then(blob => {
+      console.log('2blob')
+      return mainScreen.storageRef.child(fname).put(blob);
+    })
+    .then(uploadTaskSnapshot => {
+      console.log('3upload')
+      return uploadTaskSnapshot.ref.getDownloadURL();
+    })
+    .then(downloadURL => {
+      console.log('4getDownload')
+      console.log(downloadURL)
+      this.setState({
+        image: {uri: downloadURL},
+      })
+      console.log('latest state')
+      console.log(this.state)
+    });
+  }
+  
+
   render() {
+    console.log('----render image')
+    console.log(this.state.image)
+    console.log('render image----')
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -176,7 +208,7 @@ export class EntryDetailScreen extends React.Component {
               color="black"
               onPress={()=>{
                 this.props.navigation.navigate('Camera', {
-                  EntryDetailScreen: this
+                  entryDetail: this,
                 })
               }}/>
           </View>
