@@ -88,15 +88,33 @@ export class CommentScreen extends React.Component {
             comments:newComments,
             inputText:''
         })
-        // if (this.isAdd) {
-        //   mainScreen.addEntry(newEntry);
-        // } else {
-        //   newEntry.key = this.entryToUpdate.key;
-        //   mainScreen.updateEntry(newEntry);
-        // }
-        // // this.props.navigation.goBack();
       }
+    
+    deleteComment(index,itemtoDelete){
+        console.log(index)
+        // console.log(itemtoDelete)
+        let newComments = this.state.comments.slice()
 
+        if (index > -1) {
+            newComments.splice(index, 1);
+            }
+        console.log('==========')
+        console.log(newComments)
+        
+        let newEntry = {
+            //   text: this.state.name,
+            //   timestamp : this.timestamp,
+            // //   labels: this.state.labels,
+                comments: newComments,
+            };
+        let mainScreen = this.props.navigation.getParam('mainScreen');
+        newEntry.key = this.entrytoComment.key;
+        mainScreen.updateComment(newEntry);
+        this.setState({
+            comments:newComments,
+            inputText:''
+        })
+    }
     render() {
         if (this.blankScreen === true){
             console.log(this.blankScreen)
@@ -148,7 +166,7 @@ export class CommentScreen extends React.Component {
                     <FlatList
                         data={this.state.comments}
                         renderItem={
-                        ({item}) => {
+                        ({item,index}) => {
                             return (
                                 <View style={{width:'100%'}}>
                                 <View style={styles.commentBody}>
@@ -158,7 +176,7 @@ export class CommentScreen extends React.Component {
                                         type="clear"
                                         containerStyle={styles.smallButtonContainer}
                                         titleStyle={{fontSize: 12}}
-                                        onPress={()=>{this.handleDelete(item)}}
+                                        onPress={()=>{this.deleteComment(index,item)}}
                                     />
                                 </View>
                                 </View>
