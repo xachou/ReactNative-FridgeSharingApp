@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Button, Input} from 'react-native-elements';
 import { styles } from './Styles';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from 'firebase';
 import '@firebase/firestore';
 import Moment from 'moment';
@@ -16,7 +17,7 @@ export class CommentScreen extends React.Component {
         let initText = ''
 
         this.entrytoComment = this.props.navigation.getParam('comment', undefined);
-        this.blankScreen = (typeof this.entrytoComment.comments === 'undefined');
+        this.blankScreen = (typeof this.entrytoComment.comments === undefined);
         if (!this.blankScreen) { //is to add new comment
             console.log('=======get comment key')
             console.log(this.entrytoComment.key)
@@ -104,7 +105,10 @@ export class CommentScreen extends React.Component {
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerText}>Comment</Text>
                         <Text>{this.state.name}</Text>
+                        <View style={{flexDirection: 'row'}}>
                         <Text>{this.state.timestamp.toLocaleString()}</Text>
+                        <Text>Expired in 5 days</Text>
+                        </View>
                         <Text>------Add new comment-------</Text>
                     </View>
                     <View style={styles.bodyContainer}>
@@ -132,51 +136,54 @@ export class CommentScreen extends React.Component {
                 <View style={styles.container}>
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerText}>Comment</Text>
-                        <Text>{this.state.name}</Text>
-                        <Text>{this.state.timestamp.toLocaleString()}</Text>
+                        <Text style={{fontWeight: 600, fontSize: 20}}>{this.state.name}</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{color: '#5f6368'}}>{this.state.timestamp.toLocaleString()} | </Text>
+                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expired in 5 days</Text>
+                        </View>
                     </View>
 
-                    <View style={styles.bodyContainer}>
+                    <View style={styles.commentContainer}>
                         
                     <FlatList
                         data={this.state.comments}
                         renderItem={
                         ({item}) => {
                             return (
-                            <View style={styles.bodyListItem}>
-                                <View style={styles.bodyListItemLeft}>
-                                <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
-                                <Text style={styles.bodyListItemText}>{item.commentText}</Text>
+                                <View style={{width:'100%'}}>
+                                <View style={styles.commentBody}>
+                                    <Text style={styles.commentText}>{item.commentText}</Text>
+                                    <Button
+                                        title='Delete'
+                                        type="clear"
+                                        containerStyle={styles.smallButtonContainer}
+                                        titleStyle={{fontSize: 12}}
+                                        onPress={()=>{this.handleDelete(item)}}
+                                    />
                                 </View>
-                                <View style={styles.bodyListItemRight}>
-                                <Button
-                                    title='Delete'
-                                    containerStyle={styles.smallButtonContainer}
-                                    titleStyle={styles.mediumButtonTitle}
-                                    onPress={()=>{this.handleDelete(item)}}
-                                />
                                 </View>
-            
-                            </View>
                             );
                         }} 
                     />
-                    <Input
-                        multiline={false}
-                        placeholder=""
-                        inputContainerStyle={styles.smallInput}
-                        containerStyle={{justifyContent: 'flex-start'}}
-                        value={this.state.inputText}
-                        onChangeText={(value)=>{this.setState({inputText: value})}}
-                    />
+                    <View style={{flexDirection:'row'}}>
+                        <Input
+                            multiline={false}
+                            placeholder="  Leave your comment here!"
+                            inputContainerStyle={ {backgroundColor: '#f2f2f2', borderRadius: 30, borderBottomWidth: 0} }
+                            containerStyle={{justifyContent: 'flex-start', padding: 5, width: '90%'}}
+                            value={this.state.inputText}
+                            onChangeText={(value)=>{this.setState({inputText: value})}}
+                        />
+                        <Button
+                            type="clear"
+                            icon={<MaterialCommunityIcons name="send" color='#00D098' size="24"/>}
+                            onPress={() => {
+                                this.handleCommentSave();
+                            }}
+                        />
+                    </View>
                     </View>
                     <View style={styles.footerContainer}>
-                    <Button
-                        title='Comment'
-                        onPress={() => {
-                            this.handleCommentSave();
-                        }}
-                    />
                     </View>
                 </View>
                 );

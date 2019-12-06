@@ -236,11 +236,11 @@ export class MainScreen extends React.Component {
                             icon={<MaterialCommunityIcons name="chat" color='black' size="24"/>}
                             type="clear"
                             />
-                          <MaterialCommunityIcons
+                          {/* <MaterialCommunityIcons
                             name="chat"
                             size={24}
                             color="black"
-                            onPress={()=>{this.handleComment(item)}}/>
+                            onPress={()=>{this.handleComment(item)}}/> */}
                         </Card>
                       </View>
                     );
@@ -250,6 +250,16 @@ export class MainScreen extends React.Component {
             <View style={styles.footerContainer}>
               <Button
                 title='Add Entry'
+                titleStyle={{
+                  color: "white",
+                  fontSize: 14,
+                }}
+                buttonStyle={{
+                  backgroundColor: "#00D098",
+                  borderRadius: 19,
+                  height: 38,
+                  width: 122,  
+                }}
                 onPress={() => {
                   this.props.navigation.navigate('Details', {mainScreen: this});
                 }}

@@ -2,35 +2,34 @@ import { StyleSheet } from 'react-native';
 
 
 export const styles = StyleSheet.create({
-    deleteButton: {
-      color: 'blue',  
-    },
+  deleteButton: {
+    color: 'blue',  
+  },
   container: {
     flex: 1.0,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center'
   },  
   headerContainer: {
     flex: 0.1,
-    justifyContent: 'flex-end'
+    flexDirection: "column",
+    justifyContent: 'center'
   },
   detailsHeaderContainer: {
     justifyContent: 'center', 
-    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 10
   },
   headerText: {
     fontSize: 28
   },
   bodyContainer: {
-    flex: 0.4,
-    padding: 40, 
+    flex: 0.8,
+    padding: 10, 
     width: '100%',
     justifyContent: 'flex-start',
   },
   bodyListItem: {
-
-    flexDirection: 'row',
     width: '100%'
   },
   bodyListItemLeft: {
@@ -67,6 +66,9 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0,
     width: 200
   },
+  commentInput: {
+    borderBottomWidth: 1,
+  },
   detailsLabelsContainer: {
     flex: 0.5
   },
@@ -95,7 +97,7 @@ export const styles = StyleSheet.create({
     height: '95%'
   },
   footerContainer: {
-    flex: 0.1,
+    flex: 0.15,
     flexDirection: 'row',
     width: '70%',
     justifyContent: 'center'
@@ -113,4 +115,27 @@ export const styles = StyleSheet.create({
     margin: 3,
     marginTop: 10,
   },
+  commentContainer: {
+    marginTop: 10,
+    flex: 0.8,
+    width: '100%',
+    alignContent: 'center'
+    },
+  commentBody:{
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "#00D098",
+    borderRadius: 19,
+    flexDirection: 'row',
+    alignSelf:'flex-start',
+    marginBottom: 13,
+    justifyContent: "space-between"
+  },
+  commentText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "600",
+    margin: 20,
+
+  }
 });
