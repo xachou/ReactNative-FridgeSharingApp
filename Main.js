@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import { View, Text, FlatList, Platform, Image, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Card, ListItem, Icon } from 'react-native-elements';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './Styles';
 import firebase from 'firebase';
-import '@firebase/firestore'; // not sure why we don't import storage as well
-import { Container, Header, Body, Subtitle, CheckBox, Title, Card, CardItem, Left, Right, Icon, Content, Thumbnail, Grid, Col } from 'native-base';
+import '@firebase/firestore';
+
+// format the time
 import Moment from 'moment';
 
 
@@ -171,7 +173,6 @@ export class MainScreen extends React.Component {
 
 
     render() {
-       
         return (
           <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -192,54 +193,31 @@ export class MainScreen extends React.Component {
                   ({item}) => {
                     return (
                       <View style={styles.bodyListItem}>
-                        {/* <View style={styles.bodyListItemLeft}> */}
-                        <Content>
-                          <Card>
-                            <CardItem>
-                              <Left>
-                              <Thumbnail 
-                              source={this.conditionalThumbNail(item.image)}
-                              style={{width:80,height:80,borderRadius:10,marginRight:5}}/>
-                              <View style={{alignItems:'flex-start',flexDirection:'column'}}>
-                                <Title style={styles.bodyListItemText}>{item.text}</Title>
-                                <Subtitle>{item.servings} Servings</Subtitle>
-                                <Body>
-                                 <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
-                               </Body>
-                              </View>
-                              </Left>
-
-                              <Right>
-                                  <View style={{alignItems:'flex-start',flexDirection:'column'}}>
-                                  <CardItem button onPress={()=>{this.handleDelete(item)}}>
-                                <Body>
-                                  <Text>
-                                    Delete
-                                  </Text>
-                                </Body>
-                              </CardItem>
-                                  </View>
-                              </Right>
-                            </CardItem>
-                              <Right>
-                              <CardItem button onPress={()=>{this.handleComment(item)}}>
-                                <Body>
-                                  <Text>
-                                    Comment
-                                  </Text>
-                                </Body>
-                              </CardItem>
-                              <CardItem button onPress={()=>{this.handleEdit(item)}}>
-                                <Body>
-                                  <Text>
-                                    Edit
-                                  </Text>
-                                </Body>
-                              </CardItem>
-                              </Right>
-                          </Card>
-                        </Content>
-                        </View>
+                        <Card
+                          title={item.text}
+                          image={this.conditionalThumbNail(item.image)}>
+                          <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
+                          <Button
+                            onPress={()=>{this.handleDelete(item)}}
+                            icon={<Icon name='delete' color='black' />}
+                            type="clear" />
+                          <Button
+                            onPress={()=>{this.handleEdit(item)}}
+                            icon={<MaterialCommunityIcons name="square-edit-outline" color='black' size="24"/>}
+                            type="clear"
+                            />
+                          <Button
+                            onPress={()=>{this.handleComment(item)}}
+                            icon={<MaterialCommunityIcons name="chat" color='black' size="24"/>}
+                            type="clear"
+                            />
+                          <MaterialCommunityIcons
+                            name="chat"
+                            size={24}
+                            color="black"
+                            onPress={()=>{this.handleComment(item)}}/>
+                        </Card>
+                      </View>
                     );
                   }} 
               />

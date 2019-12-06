@@ -14,7 +14,6 @@ export class EntryDetailScreen extends React.Component {
     this.mainScreen = this.props.navigation.getParam('mainScreen');
     this.isAdd = (typeof this.entryToUpdate === 'undefined');
     let currentImageRef =  this.mainScreen.currentImageRef
-
     let initText = '';
     let initExpDate = 5;
     let initServing = 2;
