@@ -4,6 +4,7 @@ import { Button, Input} from 'react-native-elements';
 import { styles } from './Styles';
 import firebase from 'firebase';
 import '@firebase/firestore';
+import Moment from 'moment';
 
 
 export class CommentScreen extends React.Component {
@@ -14,9 +15,11 @@ export class CommentScreen extends React.Component {
         let initComment = [];
         let initText = ''
 
-        this.entrytoComment = this.props.navigation.getParam('entry', undefined);
+        this.entrytoComment = this.props.navigation.getParam('comment', undefined);
         this.blankScreen = (typeof this.entrytoComment.comments === 'undefined');
         if (!this.blankScreen) { //is to add new comment
+            console.log('=======get comment key')
+            console.log(this.entrytoComment.key)
             initComment = this.entrytoComment.comments;
             this.name = this.entrytoComment.text;
             this.timestamp = this.entrytoComment.timestamp;
@@ -58,6 +61,11 @@ export class CommentScreen extends React.Component {
         //   });
         // }
     // ########## update entry ##########
+    getConciseTimeStamp(timestamp){
+        let t = timestamp.toLocaleString()
+        formatTime = Moment(t).format('MM/DD/YYYY');
+        return formatTime
+      }
     
     handleCommentSave = () => {
         let newComments = this.state.comments.slice()
@@ -67,14 +75,14 @@ export class CommentScreen extends React.Component {
         }
         newComments.push(newComment);
         let newEntry = {
-          text: this.state.name,
-          timestamp : this.timestamp,
-        //   labels: this.state.labels,
+        //   text: this.state.name,
+        //   timestamp : this.timestamp,
+        // //   labels: this.state.labels,
           comments: newComments,
         };
         let mainScreen = this.props.navigation.getParam('mainScreen');
         newEntry.key = this.entrytoComment.key;
-        mainScreen.updateEntry(newEntry);
+        mainScreen.updateComment(newEntry);
         this.setState({
             comments:newComments,
             inputText:''

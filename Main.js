@@ -150,6 +150,31 @@ export class MainScreen extends React.Component {
           this.setState({entries: newEntries});
         });
       }
+
+      updateComment(commentToUpdate){
+        this.entriesRef.doc(commentToUpdate.key).update({
+            comments: commentToUpdate.comments,
+        }).then(function() {
+          console.log("Document successfully updated!");
+          console.log(commentToUpdate.comments)
+        }).catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }).then(() => {
+          let newEntries = [];
+          for (entry of this.state.entries) {
+            if (entry.key === commentToUpdate.key) {
+              console.log(entry)
+              entry.comments = commentToUpdate.comments;
+              console.log(entry)
+              newEntries.push(entry)
+            } else {
+              newEntries.push(entry);
+            }
+          }
+          this.setState({entries: newEntries});
+        })
+      }
     
       handleDelete(entryToDelete) {
         this.deleteEntry(entryToDelete);
@@ -165,7 +190,7 @@ export class MainScreen extends React.Component {
       handleComment(entryToComment) {
         console.log(entryToComment)
         this.props.navigation.navigate('Comment', {
-          entry: entryToComment,
+          comment: entryToComment,
           mainScreen: this
         });
       }
@@ -196,7 +221,7 @@ export class MainScreen extends React.Component {
                         <Card
                           title={item.text}
                           image={this.conditionalThumbNail(item.image)}>
-                          <Text style={styles.bodyListItemDate}>{item.timestamp.toLocaleString()}</Text>
+                          <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
                           <Button
                             onPress={()=>{this.handleDelete(item)}}
                             icon={<Icon name='delete' color='black' />}
