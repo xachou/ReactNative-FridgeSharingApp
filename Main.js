@@ -23,7 +23,6 @@ const firebaseConfig = {
 export class MainScreen extends React.Component {
     
     constructor(props) {
-
         super(props);
         let theList = [];
         let theLabelList = []
@@ -195,8 +194,6 @@ export class MainScreen extends React.Component {
         });
       }
 
-
-
     render() {
         return (
           <View style={styles.container}>
@@ -251,7 +248,7 @@ export class MainScreen extends React.Component {
             </View>
             <View style={styles.footerContainer}>
               <Button
-                title='Add Entry'
+                title='Add Food'
                 titleStyle={{
                   color: "white",
                   fontSize: 14,
