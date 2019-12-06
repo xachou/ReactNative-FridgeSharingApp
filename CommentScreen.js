@@ -24,6 +24,8 @@ export class CommentScreen extends React.Component {
             initComment = this.entrytoComment.comments;
             this.name = this.entrytoComment.text;
             this.timestamp = this.entrytoComment.timestamp;
+            this.expDate = this.entrytoComment.expDate;
+            this.servings = this.entrytoComment.servings;
             // this.labels = this.entrytoComment.labels; //label should have values
             console.log('get entry to comment')
         }else{
@@ -125,7 +127,7 @@ export class CommentScreen extends React.Component {
                         <Text>{this.state.name}</Text>
                         <View style={{flexDirection: 'row'}}>
                         <Text>{this.state.timestamp.toLocaleString()}</Text>
-                        <Text>Expired in 5 days</Text>
+                        <Text>Expire in {this.state.expDate}} Days</Text>
                         </View>
                         <Text>------Add new comment-------</Text>
                     </View>
@@ -157,7 +159,8 @@ export class CommentScreen extends React.Component {
                         <Text style={{fontWeight: 600, fontSize: 20}}>{this.state.name}</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{color: '#5f6368'}}>{this.state.timestamp.toLocaleString()} | </Text>
-                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expired in 5 days</Text>
+                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expire in {this.expDate} Days |</Text>
+                            <Text style={{fontWeight: 700, color: '#5f6368'}}>{this.servings} servings left</Text>
                         </View>
                     </View>
 

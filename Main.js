@@ -222,6 +222,8 @@ export class MainScreen extends React.Component {
                           title={item.text}
                           image={this.conditionalThumbNail(item.image)}>
                           <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
+                          <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
+                          <Text style={styles.bodyListItemDate}>{item.servings} servings left</Text>
                           <Button
                             onPress={()=>{this.handleDelete(item)}}
                             icon={<Icon name='delete' color='black' />}
