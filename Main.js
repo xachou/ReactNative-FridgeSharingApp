@@ -40,8 +40,14 @@ export class MainScreen extends React.Component {
         }
 
         // Setting up the firebase and fire storage
-        firebase.initializeApp(firebaseConfig);
-        this.db = firebase.firestore();
+        this.login =  this.props.navigation.getParam('login');
+        let currentUser = this.props.navigation.getParam('user');
+        console.log(this.login.state)
+        console.log(currentUser)
+
+        // orignal firebase initiationn
+        // firebase.initializeApp(firebaseConfig); 
+        this.db = this.login.db;
         const storage = firebase.storage();
         this.storageRef = storage.ref();
 
