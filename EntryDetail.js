@@ -20,7 +20,10 @@ export class EntryDetailScreen extends React.Component {
     let initLabels = [];
     let initComments = [];
     let initImage = require('./images/ImageNotAvailable.png');
+    let initusers = this.mainScreen.state.users;
     console.log('hello');
+    console.log(initusers)
+    
     console.log(typeof initImage);
     //this check if we are going to use this page for adding or editing
     if (!this.isAdd) {
@@ -64,6 +67,7 @@ export class EntryDetailScreen extends React.Component {
       image: initImage,
       imageWidth: 240,
       imageHeight: 180,
+      users: initusers,
     }
   }
 
@@ -89,13 +93,13 @@ export class EntryDetailScreen extends React.Component {
 
   handleLabelToggle = (labelToToggle) => {
     this.setState(prevState => {
-      let theLabels = prevState.labels.slice();
-      for (label of theLabels) {
-        if (label.key === labelToToggle.key) {
-          label.value = !label.value;
+      let theUsers = prevState.users.slice();
+      for (user of theUsers) {
+        if (user.key === labelToToggle.key) {
+          user.value = !user.value;
         }
       }
-      return {labels: theLabels};
+      return {users: theUsers};
     });
   }
   
@@ -366,6 +370,23 @@ export class EntryDetailScreen extends React.Component {
               }}
             />
           </View> */}
+            <View style={styles.detailsLabelsContainer}>
+            <FlatList
+              data={this.state.users}
+              renderItem={({item})=>{
+                return(
+                  <View style={styles.labelSelectContainer}>
+                    <CheckBox
+                      containerStyle={styles.labelSelectCheckBoxContainer}
+                      checked={item.value}
+                      onPress={()=>{this.handleLabelToggle(item)}}
+                    />
+                    <Text style={styles.labelSelectText}>{item.name}</Text>
+                  </View>
+                );
+              }}
+            />
+          </View>
         </View>
         <View style={styles.footerContainer}>
           <Button

@@ -26,6 +26,7 @@ export class MainScreen extends React.Component {
         super(props);
         let theList = [];
         let theLabelList = []
+        let theUsersList = []
         this.defaultThumbNail = require('./images/cake.jpg')
         
         this.labels = [
@@ -37,22 +38,37 @@ export class MainScreen extends React.Component {
         this.state = {
           entries: theList,
           labels: theLabelList,
+          users: theUsersList,
         }
-
-        // Setting up the firebase and fire storage
+        // inherit the database initiated in log in screen
         this.login =  this.props.navigation.getParam('login');
         let currentUser = this.props.navigation.getParam('user');
-        console.log(this.login.state)
         console.log(currentUser)
-
-        // orignal firebase initiationn
-        // firebase.initializeApp(firebaseConfig); 
+        
+        // Setting up the firebase and fire storage
         this.db = this.login.db;
         const storage = firebase.storage();
         this.storageRef = storage.ref();
 
-        // fetch all the data from firebase, and update state
+        // fetch users from database
         this.entriesRef = this.db.collection('entries'); 
+        this.usersRef = this.db.collection('users')
+        this.usersRef.get().then(queryRef=>{
+          let newUsers = [];
+          queryRef.forEach(docRef=>{
+            let docData = docRef.data()
+            let user = {
+              key : docRef.id,
+              name : docData.username,
+              value : false,
+            }
+            newUsers.push(user);
+            console.log(newUsers)
+          })
+          this.setState({users:newUsers})
+        })
+
+        // fetch the entries in database to state
         this.entriesRef.get().then(queryRef=>{
           let newEntries = [];
           queryRef.forEach(docRef=>{
@@ -68,10 +84,13 @@ export class MainScreen extends React.Component {
               image: docData.image,
             }
             newEntries.push(newEntry);
+            
           })
           this.setState({entries: newEntries});
         });
       }
+      
+
 
       //  use key of label to render the name of label in JSX 
       getLabelName(labelKey) {
@@ -85,11 +104,9 @@ export class MainScreen extends React.Component {
 
       conditionalThumbNail(imageObject) { // if user doesn't take picture while logging, return default picture
         console.log('thumbnail---')
-        console.log(imageObject);
         if (imageObject.uri === 25) {
             return this.defaultThumbNail;
           } else {
-            console.log('has thumbnail')
             return imageObject;
           }
       }
@@ -160,8 +177,6 @@ export class MainScreen extends React.Component {
         this.entriesRef.doc(commentToUpdate.key).update({
             comments: commentToUpdate.comments,
         }).then(function() {
-          console.log("Document successfully updated!");
-          console.log(commentToUpdate.comments)
         }).catch(function(error) {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
@@ -169,9 +184,7 @@ export class MainScreen extends React.Component {
           let newEntries = [];
           for (entry of this.state.entries) {
             if (entry.key === commentToUpdate.key) {
-              console.log(entry)
               entry.comments = commentToUpdate.comments;
-              console.log(entry)
               newEntries.push(entry)
             } else {
               newEntries.push(entry);
@@ -193,7 +206,6 @@ export class MainScreen extends React.Component {
       }
 
       handleComment(entryToComment) {
-        console.log(entryToComment)
         this.props.navigation.navigate('Comment', {
           comment: entryToComment,
           mainScreen: this
@@ -201,6 +213,7 @@ export class MainScreen extends React.Component {
       }
 
     render() {
+        console.log(this.state.user)
         return (
           <View style={styles.container}>
             <View style={styles.headerContainer}>

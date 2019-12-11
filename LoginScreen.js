@@ -22,10 +22,10 @@ export class LoginScreen extends React.Component {
       super(props);
       if (firebase.apps.length == 0) {
         console.log('before config###########')
-        console.log(firebase.apps)
+        console.log(firebase.apps.length)
         firebase.initializeApp(firebaseConfig);
         console.log('after config###########')
-        console.log(firebase.apps)
+        console.log(firebase.apps.length)
       }
       this.db = firebase.firestore(); 
       this.usersRef = this.db.collection('users');
