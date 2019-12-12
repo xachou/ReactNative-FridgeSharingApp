@@ -56,18 +56,19 @@ export const styles = StyleSheet.create({
   },
   cardMiddle: {
     flex: 0.6,
-    padding: 10,
+    padding: 13,
     justifyContent: 'flex-start',
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: "600",
     flex: 0.5,
-    paddingBottom: 5,
+    paddingBottom: 15,
   },
   cardTime: {
     fontSize: 12,
     color: "#666666",
+    paddingTop: 5
   },
   cardRight: {
     flex: 0.2,
