@@ -36,15 +36,16 @@ export const styles = StyleSheet.create({
     width: '95%',
     height: 100,
     flexDirection: 'row',
-    backgroundColor: '#f7f7f7',
-    marginBottom: 6,
+    backgroundColor: 'white',
+    marginTop: 6,
     borderRadius: 6,
-    shadowColor: 'rgba(0, 0, 0, 0)',
-    shadowOffset : { width: 1, height: 13},
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
-    shadowOffset: { height: 2, width: 0 }, // IOS
-    shadowOpacity: 1, // IOS
-    shadowRadius: 1, //IOS
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    }, // IOS
+    shadowOpacity: 0.2, // IOS
+    shadowRadius: 4, //IOS
   },
   cardLeft: {
     flex: 0.2,
