@@ -211,6 +211,7 @@ export class MainScreen extends React.Component {
           mainScreen: this
         });
       }
+      
 
     render() {
         console.log(this.state.user)
@@ -233,34 +234,31 @@ export class MainScreen extends React.Component {
                 renderItem={
                   ({item}) => {
                     return (
-                      <View style={styles.bodyListItem}>
-                        <Card
-                          title={item.text}
-                          image={this.conditionalThumbNail(item.image)}>
-                          <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
-                          <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
-                          <Text style={styles.bodyListItemDate}>{item.servings} servings left</Text>
-                          <Button
-                            onPress={()=>{this.handleDelete(item)}}
-                            icon={<Icon name='delete' color='black' />}
-                            type="clear" />
-                          <Button
-                            onPress={()=>{this.handleEdit(item)}}
-                            icon={<MaterialCommunityIcons name="square-edit-outline" color='black' size="24"/>}
-                            type="clear"
-                            />
-                          <Button
-                            onPress={()=>{this.handleComment(item)}}
-                            icon={<MaterialCommunityIcons name="chat" color='black' size="24"/>}
-                            type="clear"
-                            />
-                          {/* <MaterialCommunityIcons
-                            name="chat"
-                            size={24}
-                            color="black"
-                            onPress={()=>{this.handleComment(item)}}/> */}
-                        </Card>
-                      </View>
+                        <TouchableOpacity 
+                          style={styles.bodyListItem}
+                          onPress={()=>{this.handleEdit(item)}}
+                          >
+                          <Image
+                            style={styles.cardLeft}
+                            source={this.conditionalThumbNail(item.image)}/>
+                          <View style={styles.cardMiddle}>
+                            <Text style={styles.cardTitle}>{item.text}</Text>
+                            <Text style={styles.cardTime}>{this.getConciseTimeStamp(item.timestamp)}</Text>
+                            <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
+                            <Text style={styles.bodyListItemDate}>{item.servings} servings left</Text>
+                            </View>
+                          <View style={styles.cardRight}>
+                            <Button
+                              onPress={()=>{this.handleDelete(item)}}
+                              icon={<Icon name='delete' color='#00D098' />}
+                              type="clear" />
+                            <Button
+                              onPress={()=>{this.handleComment(item)}}
+                              icon={<MaterialCommunityIcons name="chat" color='#00D098' size="24"/>}
+                              type="clear"
+                              />     
+                          </View>                     
+                        </TouchableOpacity>
                     );
                   }} 
               />

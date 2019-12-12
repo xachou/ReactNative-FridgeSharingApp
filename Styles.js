@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
   },
   detailsHeaderContainer: {
     justifyContent: 'center', 
-    justifyContent: 'center',
     marginTop: 10
   },
   headerText: {
@@ -30,8 +29,51 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   bodyListItem: {
-    width: '100%'
+    marginLeft: 15,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginRight: 15,
+    width: '95%',
+    height: 100,
+    flexDirection: 'row',
+    backgroundColor: '#f7f7f7',
+    marginBottom: 6,
+    borderRadius: 6,
+    shadowColor: 'rgba(0, 0, 0, 0)',
+    shadowOffset : { width: 1, height: 13},
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 2, width: 0 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
   },
+  cardLeft: {
+    flex: 0.2,
+    height: 80,
+    width: 40,
+    alignSelf:'center',
+    marginLeft: 10,
+    borderRadius: 6,
+  },
+  cardMiddle: {
+    flex: 0.6,
+    padding: 10,
+    justifyContent: 'flex-start',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    flex: 0.5,
+    paddingBottom: 5,
+  },
+  cardTime: {
+    fontSize: 12,
+    color: "#666666",
+  },
+  cardRight: {
+    flex: 0.2,
+    justifyContent: 'center'
+  },
+
   bodyListItemLeft: {
     flex: 0.5,
     margin: 10,
@@ -137,5 +179,12 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     margin: 20,
 
-  }
+  },
+  separator: {
+    // marginTop: 3,
+    height: 1,
+    width: "86%",
+    backgroundColor: "#CED0CE",
+    marginLeft: "14%"
+  },
 });
