@@ -90,10 +90,9 @@ export class LoginScreen extends React.Component {
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>Log in</Text>
           </View>
-          <View style={styles.bodyContainer}>
+          <View style={styles.loginBodyContainer}>
             <Text>{this.state.errorMessage}</Text>
             <View style={styles.bodyRow}>
-              <Text>Username:</Text>
               <Input
                 placeholder="Username"
                 autoCapitalize="none"
@@ -102,7 +101,6 @@ export class LoginScreen extends React.Component {
               />
             </View>
             <View style={styles.bodyRow}>
-              <Text>Password:</Text>
               <Input
                 placeholder="Password"
                 autoCapitalize="none"
@@ -112,14 +110,38 @@ export class LoginScreen extends React.Component {
               />
             </View>
           </View>
-          <View style={styles.footerContainer}>
+          <View style={styles.loginFooterContainer}>
             <Button
-              title="Login"
+              title="Log in"
+              titleStyle={{
+                color: "white",
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}
+              buttonStyle={{
+                backgroundColor: "#00D098",
+                borderRadius: 10,
+                height: 38,
+                width: 340,  
+              }}
               containerStyle={styles.buttonContainer}
               onPress={this.handleLogin}
             />
             <Button
               title="Create Account"
+              titleStyle={{
+                color: "#00D098",
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}
+              buttonStyle={{
+                backgroundColor: "white",
+                borderRadius: 10,
+                borderColor: "#00D098",
+                borderWidth: 1,
+                height: 38,
+                width: 340,  
+              }}
               containerStyle={styles.buttonContainer}
               onPress={this.handleCreateAccount}
             />

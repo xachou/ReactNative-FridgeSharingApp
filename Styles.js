@@ -28,6 +28,13 @@ export const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-start',
   },
+  loginBodyContainer: {
+    flex: 0.4,
+    padding: 20,
+    width: '100%',
+    justifyContent: 'flex-end',
+    
+  },
   bodyListItem: {
     marginLeft: 15,
     justifyContent: 'center',
@@ -47,17 +54,19 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2, // IOS
     shadowRadius: 4, //IOS
   },
-  // cardTag: {
-  //   backgroundColor: '#03203f',
-  //   borderRadius: 20,
-  //   height: 14, 
-  //   flexDirection: 'row',
-  //   alignSelf:'flex-start',
-  //   marginRight: 10,
-  //   paddingTop: 10,
-  // },
+  cardTag: {
+    backgroundColor: '#03203f',
+    borderRadius: 20,
+    height: 17, 
+    flexDirection: 'row',
+    alignSelf:'flex-start',
+    marginLeft: -4,
+    paddingRight: 8,
+    paddingLeft: 8,
+    marginTop: 5,
+  },
   cardTagText: {
-    color: "#FFF",
+    color: "white",
     fontSize: 12,
     fontWeight: "600",
     margin: 20,
@@ -67,7 +76,7 @@ export const styles = StyleSheet.create({
     height: 80,
     width: 40,
     alignSelf:'center',
-    marginLeft: 10,
+    marginLeft: -6,    
     borderRadius: 6,
   },
   cardMiddle: {
@@ -79,7 +88,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     flex: 0.5,
-    paddingBottom: 15,
+    paddingBottom: 20,
   },
   cardTime: {
     fontSize: 12,
@@ -173,6 +182,17 @@ export const styles = StyleSheet.create({
     width: '70%',
     justifyContent: 'center'
   },
+  loginFooterContainer: {
+    flex: 0.5,
+    flexDirection: 'column',
+    width: '100%',
+    padding: 30,
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  buttonContainer: {
+    paddingBottom: 10,
+  },
   mediumButtonContainer: {
     margin: 3,
   },
@@ -215,5 +235,8 @@ export const styles = StyleSheet.create({
     width: "86%",
     backgroundColor: "#CED0CE",
     marginLeft: "14%"
+  },
+  bodyRow: {
+    paddingBottom: 10
   },
 });
