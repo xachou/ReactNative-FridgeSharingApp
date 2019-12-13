@@ -263,13 +263,13 @@ export class MainScreen extends React.Component {
                               />
                             <View style={styles.cardRightServing}>
                               <Button
-                                onPress={()=>{this.handleComment(item)}}
+                                onPress={()=>{this.handleDecrementDate()}}
                                 icon={<MaterialCommunityIcons name='minus-box' color='#00D098' size="24"/>}
                                 type="clear"
                               />
                               <Text style={styles.cardServing}>{item.servings}</Text>
                               <Button
-                                onPress={()=>{this.handleComment(item)}}
+                                onPress={()=>{this.handleIncrementServings(1)}}
                                 icon={<MaterialCommunityIcons name='plus-box' color='#00D098' size="24"/>}
                                 type="clear"
                               />
