@@ -26,6 +26,7 @@ export class MainScreen extends React.Component {
         super(props);
         let theList = [];
         let theLabelList = []
+        let theUsersList = []
         this.defaultThumbNail = require('./images/cake.jpg')
         
         this.labels = [
@@ -37,16 +38,38 @@ export class MainScreen extends React.Component {
         this.state = {
           entries: theList,
           labels: theLabelList,
+          users: theUsersList,
         }
-
+        // inherit the database initiated in log in screen
+        this.login =  this.props.navigation.getParam('login');
+        this.currentUser = this.props.navigation.getParam('user');
+        console.log('current User========')
+        console.log(this.currentUser)
+        
         // Setting up the firebase and fire storage
-        firebase.initializeApp(firebaseConfig);
-        this.db = firebase.firestore();
+        this.db = this.login.db;
         const storage = firebase.storage();
         this.storageRef = storage.ref();
 
-        // fetch all the data from firebase, and update state
+        // fetch users from database
         this.entriesRef = this.db.collection('entries'); 
+        this.usersRef = this.db.collection('users')
+        this.usersRef.get().then(queryRef=>{
+          let newUsers = [];
+          queryRef.forEach(docRef=>{
+            let docData = docRef.data()
+            let user = {
+              key : docRef.id,
+              name : docData.username,
+              value : false,
+            }
+            newUsers.push(user);
+            console.log(newUsers)
+          })
+          this.setState({users:newUsers})
+        })
+
+        // fetch the entries in database to state
         this.entriesRef.get().then(queryRef=>{
           let newEntries = [];
           queryRef.forEach(docRef=>{
@@ -60,12 +83,16 @@ export class MainScreen extends React.Component {
               servings:docData.servings,
               expDate:docData.expDate,
               image: docData.image,
+              owners: docData.owners,
             }
             newEntries.push(newEntry);
+            
           })
           this.setState({entries: newEntries});
         });
       }
+      
+
 
       //  use key of label to render the name of label in JSX 
       getLabelName(labelKey) {
@@ -79,11 +106,9 @@ export class MainScreen extends React.Component {
 
       conditionalThumbNail(imageObject) { // if user doesn't take picture while logging, return default picture
         console.log('thumbnail---')
-        console.log(imageObject);
         if (imageObject.uri === 25) {
             return this.defaultThumbNail;
           } else {
-            console.log('has thumbnail')
             return imageObject;
           }
       }
@@ -135,6 +160,7 @@ export class MainScreen extends React.Component {
           expDate:  entryToUpdate.expDate,
           servings: entryToUpdate.servings,
           image: entryToUpdate.image,
+          owners: entryToUpdate.owners,
           // labels: entryToUpdate.labels,
           // comments: entryToUpdate.comments,
         }).then(() => {
@@ -154,8 +180,6 @@ export class MainScreen extends React.Component {
         this.entriesRef.doc(commentToUpdate.key).update({
             comments: commentToUpdate.comments,
         }).then(function() {
-          console.log("Document successfully updated!");
-          console.log(commentToUpdate.comments)
         }).catch(function(error) {
           // The document probably doesn't exist.
           console.error("Error updating document: ", error);
@@ -163,9 +187,7 @@ export class MainScreen extends React.Component {
           let newEntries = [];
           for (entry of this.state.entries) {
             if (entry.key === commentToUpdate.key) {
-              console.log(entry)
               entry.comments = commentToUpdate.comments;
-              console.log(entry)
               newEntries.push(entry)
             } else {
               newEntries.push(entry);
@@ -187,14 +209,25 @@ export class MainScreen extends React.Component {
       }
 
       handleComment(entryToComment) {
-        console.log(entryToComment)
         this.props.navigation.navigate('Comment', {
           comment: entryToComment,
-          mainScreen: this
+          mainScreen: this,
+          user: this.currentUser,
         });
       }
 
+      handleUserDisplay(ownerToDisplay){
+        let displayOwners = [];
+        for (owner of ownerToDisplay){
+          if (owner.value === true){
+            displayOwners.push(owner.name)
+          }
+        }
+        return displayOwners.join(' ')
+      }
+
     render() {
+        console.log(this.state.user)
         return (
           <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -214,34 +247,47 @@ export class MainScreen extends React.Component {
                 renderItem={
                   ({item}) => {
                     return (
-                      <View style={styles.bodyListItem}>
-                        <Card
-                          title={item.text}
-                          image={this.conditionalThumbNail(item.image)}>
-                          <Text style={styles.bodyListItemDate}>{this.getConciseTimeStamp(item.timestamp)}</Text>
-                          <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
-                          <Text style={styles.bodyListItemDate}>{item.servings} servings left</Text>
-                          <Button
-                            onPress={()=>{this.handleDelete(item)}}
-                            icon={<Icon name='delete' color='black' />}
-                            type="clear" />
-                          <Button
-                            onPress={()=>{this.handleEdit(item)}}
-                            icon={<MaterialCommunityIcons name="square-edit-outline" color='black' size="24"/>}
-                            type="clear"
-                            />
-                          <Button
-                            onPress={()=>{this.handleComment(item)}}
-                            icon={<MaterialCommunityIcons name="chat" color='black' size="24"/>}
-                            type="clear"
-                            />
-                          {/* <MaterialCommunityIcons
-                            name="chat"
-                            size={24}
-                            color="black"
-                            onPress={()=>{this.handleComment(item)}}/> */}
-                        </Card>
-                      </View>
+                        <TouchableOpacity 
+                          style={styles.bodyListItem}
+                          onPress={()=>{this.handleEdit(item)}}
+                          >
+                          <Image
+                            style={styles.cardLeft}
+                            source={this.conditionalThumbNail(item.image)}/>
+                          <View style={styles.cardMiddle}>
+                            <Text style={styles.cardTitle}>{item.text}</Text>
+                            <Text style={styles.cardTime}>Logged on {this.getConciseTimeStamp(item.timestamp)}</Text>
+                            <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
+                            <Text style={styles.bodyListItemDate}>{this.handleUserDisplay(item.owners)}</Text>
+                              <View style={styles.cardTag}>
+                                <Text style={styles.cardTagText}></Text>
+                              </View>
+                            </View>
+                          <View style={styles.cardRight}>
+                            <Button
+                              onPress={()=>{this.handleDelete(item)}}
+                              icon={<Icon name='delete' color='#00D098' />}
+                              type="clear" />
+                            <Button
+                              onPress={()=>{this.handleComment(item)}}
+                              icon={<MaterialCommunityIcons name="chat" color='#00D098' size="24"/>}
+                              type="clear"
+                              />
+                            <View style={styles.cardRightServing}>
+                              <Button
+                                onPress={()=>{this.handleDecrementDate()}}
+                                icon={<MaterialCommunityIcons name='minus-box' color='#00D098' size="24"/>}
+                                type="clear"
+                              />
+                              <Text style={styles.cardServing}>{item.servings}</Text>
+                              <Button
+                                onPress={()=>{this.handleIncrementServings(1)}}
+                                icon={<MaterialCommunityIcons name='plus-box' color='#00D098' size="24"/>}
+                                type="clear"
+                              />
+                            </View>     
+                          </View>                     
+                        </TouchableOpacity>
                     );
                   }} 
               />

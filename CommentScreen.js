@@ -15,17 +15,24 @@ export class CommentScreen extends React.Component {
 
         let initComment = [];
         let initText = ''
-
+        let commentingUser =  {
+            key: '',
+            name: '',
+        }
+        this.currentUser = this.props.navigation.getParam('user')
+        commentingUser.key = this.currentUser.key
+        commentingUser.name = this.currentUser.username
         this.entrytoComment = this.props.navigation.getParam('comment', undefined);
         this.blankScreen = (typeof this.entrytoComment.comments === undefined);
         if (!this.blankScreen) { //is to add new comment
             console.log('=======get comment key')
             console.log(this.entrytoComment.key)
             initComment = this.entrytoComment.comments;
-            this.name = this.entrytoComment.text;
+            this.foodname = this.entrytoComment.text;
             this.timestamp = this.entrytoComment.timestamp;
             this.expDate = this.entrytoComment.expDate;
             this.servings = this.entrytoComment.servings;
+            this.owners = this.entrytoComment.owners;
             // this.labels = this.entrytoComment.labels; //label should have values
             console.log('get entry to comment')
         }else{
@@ -37,11 +44,12 @@ export class CommentScreen extends React.Component {
         this.state = {
           comments : initComment,
           inputText: initText,
-          name: this.name,
+          name: this.foodname,
           timestamp: this.timestamp,
-        //   labels: this.labels,
+          owners: this.owners,
+          commentingUser: commentingUser,
         }
-        console.log(this.state)
+        console.log(this.state.currentUser)
     }
 
     // ########## update entry ##########
@@ -75,6 +83,7 @@ export class CommentScreen extends React.Component {
         let newComment = {
             commentText : this.state.inputText,
             timestamp : this.timestamp,
+            commentUser :this.state.commentingUser,
         }
         newComments.push(newComment);
         let newEntry = {
@@ -159,7 +168,8 @@ export class CommentScreen extends React.Component {
                         <Text style={{fontWeight: 600, fontSize: 20}}>{this.state.name}</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{color: '#5f6368'}}>{this.state.timestamp.toLocaleString()} | </Text>
-                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expire in {this.expDate} Days |</Text>
+                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expire in {this.expDate} Days</Text>
+                            <Text style={{color: '#5f6368'}}> | </Text>
                             <Text style={{fontWeight: 700, color: '#5f6368'}}>{this.servings} servings left</Text>
                         </View>
                     </View>
@@ -173,6 +183,7 @@ export class CommentScreen extends React.Component {
                             return (
                                 <View style={{width:'100%'}}>
                                 <View style={styles.commentBody}>
+                                    <Text style={styles.commentText}>{item.commentUser.name}:</Text>
                                     <Text style={styles.commentText}>{item.commentText}</Text>
                                     <Button
                                         title='Delete'

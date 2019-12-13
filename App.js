@@ -4,8 +4,10 @@ import { MainScreen } from './Main';
 import { EntryDetailScreen } from './EntryDetail';
 import { CameraScreen } from './CameraScreen';
 import { CommentScreen } from './CommentScreen';
+import { LoginScreen } from './LoginScreen';
 const AppNavigator = createStackNavigator(
   {
+    Login: LoginScreen,
     Home: MainScreen,
     Details: EntryDetailScreen,
     Camera: CameraScreen,
@@ -13,9 +15,11 @@ const AppNavigator = createStackNavigator(
     // LabelDetails: LabelDetailScreen,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
   }
 );
 
 const AppContainer = createAppContainer(AppNavigator);
 export default AppContainer;
+
+

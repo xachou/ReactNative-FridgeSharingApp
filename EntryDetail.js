@@ -20,7 +20,10 @@ export class EntryDetailScreen extends React.Component {
     let initLabels = [];
     let initComments = [];
     let initImage = require('./images/ImageNotAvailable.png');
-    console.log('hello');
+    let initowners = this.mainScreen.state.users;
+    console.log('init owners========');
+    console.log(initowners)
+    
     console.log(typeof initImage);
     //this check if we are going to use this page for adding or editing
     if (!this.isAdd) {
@@ -30,6 +33,7 @@ export class EntryDetailScreen extends React.Component {
       initExpDate = this.entryToUpdate.expDate;
       initServing = this.entryToUpdate.servings;
       initImage = this.entryToUpdate.image;
+      initowners = this.entryToUpdate.owners;
       console.log(initImage)
       if (typeof this.entryToUpdate.image !== 'undefined') {
             console.log('old image----');
@@ -64,6 +68,7 @@ export class EntryDetailScreen extends React.Component {
       image: initImage,
       imageWidth: 240,
       imageHeight: 180,
+      owners: initowners,
     }
   }
 
@@ -76,6 +81,7 @@ export class EntryDetailScreen extends React.Component {
       servings: this.state.servings,
       expDate: this.state.expDate,
       image: this.state.image,
+      owners: this.state.owners,
     };
     let mainScreen = this.props.navigation.getParam('mainScreen');
     if (this.isAdd) {
@@ -89,13 +95,13 @@ export class EntryDetailScreen extends React.Component {
 
   handleLabelToggle = (labelToToggle) => {
     this.setState(prevState => {
-      let theLabels = prevState.labels.slice();
-      for (label of theLabels) {
-        if (label.key === labelToToggle.key) {
-          label.value = !label.value;
+      let theOwners = prevState.owners.slice();
+      for (owner of theOwners) {
+        if (owner.key === labelToToggle.key) {
+          owner.value = !owner.value;
         }
       }
-      return {labels: theLabels};
+      return {owners: theOwners};
     });
   }
   
@@ -366,6 +372,23 @@ export class EntryDetailScreen extends React.Component {
               }}
             />
           </View> */}
+            <View style={styles.detailsLabelsContainer}>
+            <FlatList
+              data={this.state.owners}
+              renderItem={({item})=>{
+                return(
+                  <View style={styles.labelSelectContainer}>
+                    <CheckBox
+                      containerStyle={styles.labelSelectCheckBoxContainer}
+                      checked={item.value}
+                      onPress={()=>{this.handleLabelToggle(item)}}
+                    />
+                    <Text style={styles.labelSelectText}>{item.name}</Text>
+                  </View>
+                );
+              }}
+            />
+          </View>
         </View>
         <View style={styles.footerContainer}>
           <Button
