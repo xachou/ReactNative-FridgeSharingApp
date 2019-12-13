@@ -15,8 +15,13 @@ export class CommentScreen extends React.Component {
 
         let initComment = [];
         let initText = ''
+        let commentingUser =  {
+            key: '',
+            name: '',
+        }
         this.currentUser = this.props.navigation.getParam('user')
-        console.log(this.currentUser)
+        commentingUser.key = this.currentUser.key
+        commentingUser.name = this.currentUser.username
         this.entrytoComment = this.props.navigation.getParam('comment', undefined);
         this.blankScreen = (typeof this.entrytoComment.comments === undefined);
         if (!this.blankScreen) { //is to add new comment
@@ -42,9 +47,9 @@ export class CommentScreen extends React.Component {
           name: this.foodname,
           timestamp: this.timestamp,
           owners: this.owners,
-          currentUser: this.currentUser,
+          commentingUser: commentingUser,
         }
-        console.log(this.state)
+        console.log(this.state.currentUser)
     }
 
     // ########## update entry ##########
@@ -78,7 +83,7 @@ export class CommentScreen extends React.Component {
         let newComment = {
             commentText : this.state.inputText,
             timestamp : this.timestamp,
-            commentUser :this.currentUser,
+            commentUser :this.state.commentingUser,
         }
         newComments.push(newComment);
         let newEntry = {
@@ -178,7 +183,7 @@ export class CommentScreen extends React.Component {
                             return (
                                 <View style={{width:'100%'}}>
                                 <View style={styles.commentBody}>
-                                    {/* <Text style={styles.commentText}>{this.currentUser}</Text> */}
+                                    <Text style={styles.commentText}>{item.commentUser.name}:</Text>
                                     <Text style={styles.commentText}>{item.commentText}</Text>
                                     <Button
                                         title='Delete'
