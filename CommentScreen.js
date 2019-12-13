@@ -15,17 +15,19 @@ export class CommentScreen extends React.Component {
 
         let initComment = [];
         let initText = ''
-
+        this.currentUser = this.props.navigation.getParam('user')
+        console.log(this.currentUser)
         this.entrytoComment = this.props.navigation.getParam('comment', undefined);
         this.blankScreen = (typeof this.entrytoComment.comments === undefined);
         if (!this.blankScreen) { //is to add new comment
             console.log('=======get comment key')
             console.log(this.entrytoComment.key)
             initComment = this.entrytoComment.comments;
-            this.name = this.entrytoComment.text;
+            this.foodname = this.entrytoComment.text;
             this.timestamp = this.entrytoComment.timestamp;
             this.expDate = this.entrytoComment.expDate;
             this.servings = this.entrytoComment.servings;
+            this.owners = this.entrytoComment.owners;
             // this.labels = this.entrytoComment.labels; //label should have values
             console.log('get entry to comment')
         }else{
@@ -37,9 +39,10 @@ export class CommentScreen extends React.Component {
         this.state = {
           comments : initComment,
           inputText: initText,
-          name: this.name,
+          name: this.foodname,
           timestamp: this.timestamp,
-        //   labels: this.labels,
+          owners: this.owners,
+          currentUser: this.currentUser,
         }
         console.log(this.state)
     }
@@ -75,6 +78,7 @@ export class CommentScreen extends React.Component {
         let newComment = {
             commentText : this.state.inputText,
             timestamp : this.timestamp,
+            commentUser :this.currentUser,
         }
         newComments.push(newComment);
         let newEntry = {
@@ -174,6 +178,7 @@ export class CommentScreen extends React.Component {
                             return (
                                 <View style={{width:'100%'}}>
                                 <View style={styles.commentBody}>
+                                    {/* <Text style={styles.commentText}>{this.currentUser}</Text> */}
                                     <Text style={styles.commentText}>{item.commentText}</Text>
                                     <Button
                                         title='Delete'

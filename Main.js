@@ -42,8 +42,9 @@ export class MainScreen extends React.Component {
         }
         // inherit the database initiated in log in screen
         this.login =  this.props.navigation.getParam('login');
-        let currentUser = this.props.navigation.getParam('user');
-        console.log(currentUser)
+        this.currentUser = this.props.navigation.getParam('user');
+        console.log('current User========')
+        console.log(this.currentUser)
         
         // Setting up the firebase and fire storage
         this.db = this.login.db;
@@ -82,7 +83,7 @@ export class MainScreen extends React.Component {
               servings:docData.servings,
               expDate:docData.expDate,
               image: docData.image,
-              users: docData.users,
+              owners: docData.owners,
             }
             newEntries.push(newEntry);
             
@@ -159,7 +160,7 @@ export class MainScreen extends React.Component {
           expDate:  entryToUpdate.expDate,
           servings: entryToUpdate.servings,
           image: entryToUpdate.image,
-          users: entryToUpdate.users,
+          owners: entryToUpdate.owners,
           // labels: entryToUpdate.labels,
           // comments: entryToUpdate.comments,
         }).then(() => {
@@ -210,10 +211,20 @@ export class MainScreen extends React.Component {
       handleComment(entryToComment) {
         this.props.navigation.navigate('Comment', {
           comment: entryToComment,
-          mainScreen: this
+          mainScreen: this,
+          user: this.currentUser,
         });
       }
-      
+
+      handleUserDisplay(ownerToDisplay){
+        let displayOwners = [];
+        for (owner of ownerToDisplay){
+          if (owner.value === true){
+            displayOwners.push(owner.name)
+          }
+        }
+        return displayOwners.join(' ')
+      }
 
     render() {
         console.log(this.state.user)
@@ -245,8 +256,9 @@ export class MainScreen extends React.Component {
                             source={this.conditionalThumbNail(item.image)}/>
                           <View style={styles.cardMiddle}>
                             <Text style={styles.cardTitle}>{item.text}</Text>
-                            <Text style={styles.cardTime}>{this.getConciseTimeStamp(item.timestamp)}</Text>
+                            <Text style={styles.cardTime}>Logged on {this.getConciseTimeStamp(item.timestamp)}</Text>
                             <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
+                            <Text style={styles.bodyListItemDate}>{this.handleUserDisplay(item.owners)}</Text>
                               <View style={styles.cardTag}>
                                 <Text style={styles.cardTagText}></Text>
                               </View>
