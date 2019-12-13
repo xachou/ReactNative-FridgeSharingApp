@@ -159,7 +159,8 @@ export class CommentScreen extends React.Component {
                         <Text style={{fontWeight: 600, fontSize: 20}}>{this.state.name}</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{color: '#5f6368'}}>{this.state.timestamp.toLocaleString()} | </Text>
-                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expire in {this.expDate} Days |</Text>
+                            <Text style={{fontWeight: 700, color: '#5f6368'}}>Expire in {this.expDate} Days</Text>
+                            <Text style={{color: '#5f6368'}}> | </Text>
                             <Text style={{fontWeight: 700, color: '#5f6368'}}>{this.servings} servings left</Text>
                         </View>
                     </View>

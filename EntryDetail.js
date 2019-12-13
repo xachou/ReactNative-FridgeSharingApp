@@ -183,7 +183,7 @@ export class EntryDetailScreen extends React.Component {
         <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Log food</Text>
         </View>
-          <View>
+          <View style={styles.detailsHeaderContainer}>
             <Image
               style={{width: this.state.imageWidth, height: this.state.imageHeight}}
               source={this.state.image}

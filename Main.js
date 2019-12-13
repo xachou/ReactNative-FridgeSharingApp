@@ -82,6 +82,7 @@ export class MainScreen extends React.Component {
               servings:docData.servings,
               expDate:docData.expDate,
               image: docData.image,
+              users: docData.users,
             }
             newEntries.push(newEntry);
             
@@ -158,6 +159,7 @@ export class MainScreen extends React.Component {
           expDate:  entryToUpdate.expDate,
           servings: entryToUpdate.servings,
           image: entryToUpdate.image,
+          users: entryToUpdate.users,
           // labels: entryToUpdate.labels,
           // comments: entryToUpdate.comments,
         }).then(() => {
@@ -245,7 +247,9 @@ export class MainScreen extends React.Component {
                             <Text style={styles.cardTitle}>{item.text}</Text>
                             <Text style={styles.cardTime}>{this.getConciseTimeStamp(item.timestamp)}</Text>
                             <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
-                            <Text style={styles.bodyListItemDate}>{item.servings} servings left</Text>
+                              <View style={styles.cardTag}>
+                                <Text style={styles.cardTagText}></Text>
+                              </View>
                             </View>
                           <View style={styles.cardRight}>
                             <Button
@@ -256,7 +260,20 @@ export class MainScreen extends React.Component {
                               onPress={()=>{this.handleComment(item)}}
                               icon={<MaterialCommunityIcons name="chat" color='#00D098' size="24"/>}
                               type="clear"
-                              />     
+                              />
+                            <View style={styles.cardRightServing}>
+                              <Button
+                                onPress={()=>{this.handleComment(item)}}
+                                icon={<MaterialCommunityIcons name='minus-box' color='#00D098' size="24"/>}
+                                type="clear"
+                              />
+                              <Text style={styles.cardServing}>{item.servings}</Text>
+                              <Button
+                                onPress={()=>{this.handleComment(item)}}
+                                icon={<MaterialCommunityIcons name='plus-box' color='#00D098' size="24"/>}
+                                type="clear"
+                              />
+                            </View>     
                           </View>                     
                         </TouchableOpacity>
                     );

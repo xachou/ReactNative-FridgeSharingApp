@@ -47,6 +47,21 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2, // IOS
     shadowRadius: 4, //IOS
   },
+  // cardTag: {
+  //   backgroundColor: '#03203f',
+  //   borderRadius: 20,
+  //   height: 14, 
+  //   flexDirection: 'row',
+  //   alignSelf:'flex-start',
+  //   marginRight: 10,
+  //   paddingTop: 10,
+  // },
+  cardTagText: {
+    color: "#FFF",
+    fontSize: 12,
+    fontWeight: "600",
+    margin: 20,
+  },
   cardLeft: {
     flex: 0.2,
     height: 80,
@@ -73,9 +88,21 @@ export const styles = StyleSheet.create({
   },
   cardRight: {
     flex: 0.2,
-    justifyContent: 'center'
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    paddingTop:3,
+    paddingBottom:3
   },
-
+  cardRightServing: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignContent: 'center'
+  },
+  cardServing: {
+    fontSize: 14,
+    color: "#666666",
+    paddingTop: 10
+  },
   bodyListItemLeft: {
     flex: 0.5,
     margin: 10,
@@ -157,17 +184,18 @@ export const styles = StyleSheet.create({
   },
   smallButtonContainer: {
     margin: 3,
-    marginTop: 10,
   },
   commentContainer: {
     marginTop: 10,
     flex: 0.8,
     width: '100%',
-    alignContent: 'center'
+    alignContent: 'center',
+    justifyContent: 'space-around'
     },
   commentBody:{
     marginLeft: 10,
     marginRight: 10,
+    paddingRight: 10,
     backgroundColor: "#00D098",
     borderRadius: 19,
     flexDirection: 'row',
@@ -179,8 +207,7 @@ export const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontWeight: "600",
-    margin: 20,
-
+    margin: 10,
   },
   separator: {
     // marginTop: 3,
