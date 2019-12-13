@@ -92,8 +92,6 @@ export class MainScreen extends React.Component {
         });
       }
       
-
-
       //  use key of label to render the name of label in JSX 
       getLabelName(labelKey) {
         for (lbl of this.state.labels) {
@@ -226,6 +224,68 @@ export class MainScreen extends React.Component {
         return displayOwners.join(' ')
       }
 
+      handleDecrementServings(servingsToUpdate){
+        console.log(servingsToUpdate)
+        serv = servingsToUpdate.servings
+        console.log('servings +++++++++')
+        console.log(serv)
+        if (serv > 1){
+          serv -= 1
+        } else{
+          serv = 1
+        }
+        this.entriesRef.doc(servingsToUpdate.key).update({
+          servings: serv,
+        }).then(function() {
+        }).catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }).then(() => {
+          let newEntries = [];
+          for (entry of this.state.entries) {
+            if (entry.key === servingsToUpdate.key) {
+              entry.servings = serv;
+              newEntries.push(entry)
+            } else {
+              newEntries.push(entry);
+            }
+          }
+          this.setState({entries: newEntries});
+          })
+        }
+      
+      handleIncrementServings(servingsToUpdate){
+        console.log(servingsToUpdate)
+        serv = servingsToUpdate.servings
+        console.log('servings +++++++++')
+        console.log(serv)
+        if (serv > 0){
+          serv += 1
+        } else{
+          serv = 1
+        }
+        this.entriesRef.doc(servingsToUpdate.key).update({
+          servings: serv,
+        }).then(function() {
+        }).catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+        }).then(() => {
+          let newEntries = [];
+          for (entry of this.state.entries) {
+            if (entry.key === servingsToUpdate.key) {
+              entry.servings = serv;
+              newEntries.push(entry)
+            } else {
+              newEntries.push(entry);
+            }
+          }
+          this.setState({entries: newEntries});
+          })
+        }
+      
+
+
     render() {
         console.log(this.state.user)
         return (
@@ -275,13 +335,13 @@ export class MainScreen extends React.Component {
                               />
                             <View style={styles.cardRightServing}>
                               <Button
-                                onPress={()=>{this.handleDecrementDate()}}
+                                onPress={()=>{this.handleDecrementServings(item)}}
                                 icon={<MaterialCommunityIcons name='minus-box' color='#00D098' size="24"/>}
                                 type="clear"
                               />
                               <Text style={styles.cardServing}>{item.servings}</Text>
                               <Button
-                                onPress={()=>{this.handleIncrementServings(1)}}
+                                onPress={()=>{this.handleIncrementServings(item)}}
                                 icon={<MaterialCommunityIcons name='plus-box' color='#00D098' size="24"/>}
                                 type="clear"
                               />
