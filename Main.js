@@ -283,6 +283,26 @@ export class MainScreen extends React.Component {
           this.setState({entries: newEntries});
           })
         }
+
+      conditonalIcon(expDate){
+        if (expDate>5){
+          return  'checkbox-marked-circle-outline';
+        } else if(expDate>0 && expDate<=5){
+          return 'alert-circle-outline';
+        } else {
+          return 'alert-octagram';
+        }
+      }
+
+      conditonalColor(expDate){
+        if (expDate>5){
+          return  '#00FF33';
+        } else if(expDate>0 && expDate<=5){
+          return "#FFBF00";
+        } else {
+          return '#FF6633';
+        }
+      }
       
 
 
@@ -311,6 +331,10 @@ export class MainScreen extends React.Component {
                           style={styles.bodyListItem}
                           onPress={()=>{this.handleEdit(item)}}
                           >
+                          <MaterialCommunityIcons 
+                                  name={this.conditonalIcon(item.expDate)} 
+                                  color={this.conditonalColor(item.expDate)}  
+                                  size="15"/>
                           <Image
                             style={styles.cardLeft}
                             source={this.conditionalThumbNail(item.image)}/>
@@ -318,10 +342,9 @@ export class MainScreen extends React.Component {
                             <Text style={styles.cardTitle}>{item.text}</Text>
                             <Text style={styles.cardTime}>Logged on {this.getConciseTimeStamp(item.timestamp)}</Text>
                             <Text style={styles.bodyListItemDate}>Expire in {item.expDate} Days</Text>
-                            <Text style={styles.bodyListItemDate}>{this.handleUserDisplay(item.owners)}</Text>
-                              <View style={styles.cardTag}>
-                                <Text style={styles.cardTagText}></Text>
-                              </View>
+                            <View style={styles.cardTag}>
+                            <Text style={{ color:'white', size: 12 }}>{this.handleUserDisplay(item.owners)}</Text>
+                            </View>
                             </View>
                           <View style={styles.cardRight}>
                             <Button
@@ -330,7 +353,7 @@ export class MainScreen extends React.Component {
                               type="clear" />
                             <Button
                               onPress={()=>{this.handleComment(item)}}
-                              icon={<MaterialCommunityIcons name="chat" color='#00D098' size="24"/>}
+                              icon={<MaterialCommunityIcons name ='chat' color='#00D098' size="24"/>}
                               type="clear"
                               />
                             <View style={styles.cardRightServing}>
