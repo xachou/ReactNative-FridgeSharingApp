@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Row } from 'native-base';
 
 
 export const styles = StyleSheet.create({
@@ -17,7 +18,6 @@ export const styles = StyleSheet.create({
   },
   detailsHeaderContainer: {
     justifyContent: 'center', 
-    marginTop: 10
   },
   headerText: {
     fontSize: 28
@@ -150,20 +150,27 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   detailsLabelsContainer: {
-    flex: 0.5
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    marginTop: 10
   },
   optionContainers: {
-    marginTop: 10,
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 10,
   },
   labelSelectContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
+    alignContent: 'center',
   },
   labelSelectCheckBoxContainer: {
     padding: 1,
-    margin: 1
+    margin: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
   labelSelectText: {
     fontSize: 16
