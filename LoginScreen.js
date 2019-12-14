@@ -6,16 +6,15 @@ import { styles } from './Styles';
 import firebase from 'firebase';
 import '@firebase/firestore';
 
-
 const firebaseConfig = {
-    apiKey: "AIzaSyAK4Tn8HNnIbrdfh5e1uR5JECM3T4J99N0",
-    authDomain: "finalproj-fridge.firebaseapp.com",
-    databaseURL: "https://finalproj-fridge.firebaseio.com",
-    projectId: "finalproj-fridge",
-    storageBucket: "finalproj-fridge.appspot.com",
-    messagingSenderId: "601009921612",
-    appId: "1:601009921612:web:fc4ecc77b48d4cd6409ee9"
-  };
+  apiKey: "AIzaSyCgOHyI-bGALzplTqTG9I_XtqUyR7c5JJs",
+  authDomain: "fridge-demo-33bef.firebaseapp.com",
+  databaseURL: "https://fridge-demo-33bef.firebaseio.com",
+  projectId: "fridge-demo-33bef",
+  storageBucket: "fridge-demo-33bef.appspot.com",
+  messagingSenderId: "396830472525",
+  appId: "1:396830472525:web:07a2b2b4d6f0bf454d5f04"
+};
 
 export class LoginScreen extends React.Component {
     constructor(props)  {

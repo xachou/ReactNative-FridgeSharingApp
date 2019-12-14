@@ -209,7 +209,7 @@ export class EntryDetailScreen extends React.Component {
             />
             <MaterialCommunityIcons
               name="camera"
-              size={25}
+              size={20}
               color="black"
               onPress={()=>{
                 this.props.navigation.navigate('Camera', {

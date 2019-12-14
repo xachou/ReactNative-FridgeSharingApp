@@ -10,16 +10,6 @@ import '@firebase/firestore';
 import Moment from 'moment';
 
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAK4Tn8HNnIbrdfh5e1uR5JECM3T4J99N0",
-    authDomain: "finalproj-fridge.firebaseapp.com",
-    databaseURL: "https://finalproj-fridge.firebaseio.com",
-    projectId: "finalproj-fridge",
-    storageBucket: "finalproj-fridge.appspot.com",
-    messagingSenderId: "601009921612",
-    appId: "1:601009921612:web:fc4ecc77b48d4cd6409ee9"
-  };
-
 export class MainScreen extends React.Component {
     
     constructor(props) {
@@ -216,10 +206,15 @@ export class MainScreen extends React.Component {
 
       handleUserDisplay(ownerToDisplay){
         let displayOwners = [];
+        let usercount  = 0
         for (owner of ownerToDisplay){
           if (owner.value === true){
             displayOwners.push(owner.name)
+            usercount+=1
           }
+        }
+        if(usercount ==0){
+          return 'household'
         }
         return displayOwners.join(' ')
       }
