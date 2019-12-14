@@ -153,8 +153,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
-    alignSelf: 'center',
-    marginTop: 20
+    marginTop: 10
   },
   optionContainers: {
     marginBottom: 20,
@@ -164,7 +163,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    alignSelf: 'center'
   },
   labelSelectCheckBoxContainer: {
     padding: 1,
@@ -172,7 +170,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    alignSelf: 'center'
   },
   labelSelectText: {
     fontSize: 16
