@@ -157,6 +157,7 @@ export const styles = StyleSheet.create({
   },
   optionContainers: {
     marginBottom: 20,
+    marginTop: 10,
   },
   labelSelectContainer: {
     flexDirection: 'row',
