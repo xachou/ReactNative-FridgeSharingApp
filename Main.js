@@ -285,9 +285,9 @@ export class MainScreen extends React.Component {
         }
 
       conditonalIcon(expDate){
-        if (expDate>5){
+        if (expDate>3){
           return  'checkbox-marked-circle-outline';
-        } else if(expDate>0 && expDate<=5){
+        } else if(expDate>0 && expDate<=3){
           return 'alert-circle-outline';
         } else {
           return 'alert-octagram';
@@ -295,9 +295,9 @@ export class MainScreen extends React.Component {
       }
 
       conditonalColor(expDate){
-        if (expDate>5){
+        if (expDate>3){
           return  '#00FF33';
-        } else if(expDate>0 && expDate<=5){
+        } else if(expDate>0 && expDate<=3){
           return "#FFBF00";
         } else {
           return '#FF6633';
