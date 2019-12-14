@@ -220,7 +220,7 @@ export class EntryDetailScreen extends React.Component {
           <View>
           <View style={styles.optionContainers}>
             {/* Expiration Dates */}
-            <Text style={{ fontSize: 14, textAlign: 'center' }}>Expired in {this.state.expDate} days</Text>
+            <Text style={{ fontSize: 14, textAlign: 'center' }}>Expire in {this.state.expDate} days</Text>
               <View style={styles.detailButtons}>
                 <Button
                   title='-1'
@@ -373,21 +373,23 @@ export class EntryDetailScreen extends React.Component {
             />
           </View> */}
             <View style={styles.detailsLabelsContainer}>
-            <FlatList
-              data={this.state.owners}
-              renderItem={({item})=>{
-                return(
-                  <View style={styles.labelSelectContainer}>
-                    <CheckBox
-                      containerStyle={styles.labelSelectCheckBoxContainer}
-                      checked={item.value}
-                      onPress={()=>{this.handleLabelToggle(item)}}
-                    />
-                    <Text style={styles.labelSelectText}>{item.name}</Text>
-                  </View>
-                );
-              }}
-            />
+              <FlatList
+                data={this.state.owners}
+                renderItem={({item})=>{
+                  return(
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={styles.labelSelectContainer}>
+                        <CheckBox
+                          containerStyle={styles.labelSelectCheckBoxContainer}
+                          checked={item.value}
+                          onPress={()=>{this.handleLabelToggle(item)}}
+                        />
+                        <Text style={styles.labelSelectText}>{item.name}</Text>
+                      </View>
+                    </View>
+                  );
+                }}
+              />
           </View>
         </View>
         <View style={styles.footerContainer}>
